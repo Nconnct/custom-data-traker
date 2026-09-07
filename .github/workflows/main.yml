@@ -6,24 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-windows:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show project files
-        run: find . -maxdepth 3 -type f
+      - name: Check files
+        shell: powershell
+        run: Get-ChildItem -Recurse
 
-      - name: Install GCC
-        run: sudo apt-get update && sudo apt-get install -y gcc
+      - name: Build Windows EXE
+        shell: powershell
+        run: |
+          gcc -std=c11 -Wall -Wextra -O2 main.c -o calculator.exe -lm
 
-      - name: Build calculator
-        run: gcc -std=c11 -Wall -Wextra -O2 main.c -lm -o calculator
-
-      - name: Upload executable
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: c-calculator
-          path: calculator
+          name: C-Calculator-Windows
+          path: calculator.exe
