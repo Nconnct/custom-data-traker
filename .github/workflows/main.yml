@@ -2,7 +2,7 @@ name: Build C Calculator
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -13,11 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show project files
+        run: find . -maxdepth 3 -type f
+
       - name: Install GCC
         run: sudo apt-get update && sudo apt-get install -y gcc
 
       - name: Build calculator
-        run: gcc -std=c11 -Wall -Wextra -O2 src/main.c -lm -o calculator
+        run: gcc -std=c11 -Wall -Wextra -O2 main.c -lm -o calculator
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
